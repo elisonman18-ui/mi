@@ -1,0 +1,359 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NELSON aka Elison West — Coding & Photography</title>
+  <meta name="description" content="Personal site of Nelson (Elison West) — coder & photographer" />
+  <meta name="theme-color" content="#0b1020" />
+  <style>
+    :root{
+      --bg:#070812;
+      --panel:#0f1722;
+      --muted:#9aa4b2;
+      --accent:#7c5cff;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:16px;
+      --maxw:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.07), transparent),
+                  radial-gradient(900px 400px at 90% 80%, rgba(0,200,255,0.03), transparent),
+                  var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:32px 20px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    .wrap{width:100%;max-width:var(--maxw);}
+    header{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;
+    }
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#00e6ff);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,0.6);font-weight:700;font-family:var(--mono)}
+    .brand h1{font-size:1.05rem;margin:0}
+    .brand p{margin:0;color:var(--muted);font-size:0.86rem}
+
+    nav{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;color:inherit;text-decoration:none;font-weight:600}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);}
+
+    main{display:grid;grid-template-columns:1fr 420px;gap:28px}
+
+    /* left column */
+    .hero{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:28px;border-radius:var(--radius);backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.03)}
+    .hero h2{margin:0 0 6px 0;font-size:2rem}
+    .hero .subtitle{color:var(--muted);margin-bottom:14px}
+    .hero .bio{color:var(--muted);margin-bottom:20px}
+    .actions{display:flex;gap:12px}
+
+    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .card{background:var(--panel);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.025);min-height:120px;display:flex;flex-direction:column;gap:10px}
+    .card h3{margin:0}
+    .muted{color:var(--muted);font-size:0.9rem}
+
+    /* right column */
+    aside{position:relative}
+    .panel{position:sticky;top:32px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:20px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03)}
+    .contact{display:flex;flex-direction:column;gap:8px}
+    .tel{font-weight:700}
+
+    /* portfolio */
+    .portfolio{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .portfolio img{width:100%;height:170px;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:block}
+
+    footer{margin-top:22px;color:var(--muted);text-align:center}
+
+    /* animated background canvas */
+    #bgCanvas{position:fixed;right:0;left:0;top:0;bottom:0;z-index:0;pointer-events:none}
+    .wrap, header, main, .panel, .hero{position:relative;z-index:2}
+
+    /* responsive */
+    @media (max-width:980px){
+      main{grid-template-columns:1fr}
+      .portfolio{grid-template-columns:repeat(2,1fr)}
+      .logo{width:52px;height:52px}
+    }
+    @media (max-width:560px){
+      .portfolio{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+    }
+
+    /* motion: typing effect */
+    .type{display:inline-block;white-space:nowrap;overflow:hidden;border-right:3px solid rgba(255,255,255,0.08);animation:typing 3s steps(28,end) infinite}
+    @keyframes typing{0%{width:0}50%{width:12ch}100%{width:0}}
+
+    /* floating cards */
+    .floaty{transform-origin:center center;transition:transform 280ms cubic-bezier(.2,.9,.3,1);}
+    .floaty:hover{transform:translateY(-8px) rotateX(6deg) rotateY(-6deg) scale(1.02)}
+
+    /* subtle focus styles */
+    a:focus{outline:2px solid rgba(124,92,255,0.18);outline-offset:4px}
+
+    /* accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .type{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">NW</div>
+        <div>
+          <h1>NELSON <small style="color:var(--muted);font-weight:600">aka Elison West</small></h1>
+          <p>Coder · Photographer</p>
+        </div>
+      </div>
+      <nav>
+        <a class="btn" href="#portfolio">Portfolio</a>
+        <a class="btn secondary" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>Hello — I'm <span style="color:var(--accent)">NELSON</span></h2>
+        <div class="subtitle">I build interfaces, take photographs, and explore creative code.</div>
+        <p class="bio">I like coding and photography. I design and prototype dark-themed experiences, interactive visuals and AI-assisted imagery. Below you'll find a selection of generative images (AI-style), motion graphics, and photography samples.</p>
+        <div class="actions">
+          <a class="btn" href="#contact">Get in touch</a>
+          <a class="btn secondary" href="#portfolio" id="viewPortfolio">View portfolio</a>
+        </div>
+
+        <div class="cards">
+          <div class="card floaty">
+            <h3>AI images</h3>
+            <div class="muted">Three procedurally generated "AI-style" images created with canvas code — editable and exportable.</div>
+          </div>
+          <div class="card floaty">
+            <h3>Motion graphics</h3>
+            <div class="muted">Particle background, smooth 3D card hover, and animated hero text — built with vanilla JS and CSS.</div>
+          </div>
+          <div class="card floaty" style="grid-column:span 2;">
+            <h3>Photography</h3>
+            <div class="muted">Use the photography tiles below to show your real photos. Replace any generated image with your originals.</div>
+          </div>
+        </div>
+
+        <section style="margin-top:18px">
+          <h3 style="margin:6px 0">Featured</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="flex:1;background:var(--glass);padding:10px;border-radius:10px;display:flex;align-items:center;gap:10px">
+              <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#00e6ff);display:flex;align-items:center;justify-content:center;font-weight:700">AI</div>
+              <div>
+                <div style="font-weight:700">Generative Mock — Nightscapes</div>
+                <div class="muted">Abstract blends and color-driven compositions.</div>
+              </div>
+            </div>
+            <div>
+              <a class="btn" id="exportAll">Export images</a>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <aside>
+        <div class="panel">
+          <h3 id="contact">Contact</h3>
+          <div class="contact">
+            <div class="muted">Phone</div>
+            <div class="tel"><a href="tel:+256700209661" style="color:inherit;text-decoration:none">+256 700 209 661</a></div>
+
+            <div class="muted" style="margin-top:10px">Email</div>
+            <div><a class="muted" href="mailto:nelson@example.com">elisonman18@gmail.com</a></div>
+
+            <div style="margin-top:10px" class="muted">Location</div>
+            <div class="muted">Uganda</div>
+
+            <div style="margin-top:14px;display:flex;gap:8px">
+              <a class="btn" href="tel:+256700209661">Call</a>
+              <a class="btn secondary" href="#contactForm">Message</a>
+            </div>
+          </div>
+
+          <h4 style="margin-top:16px">Quick Shots</h4>
+          <div class="portfolio" id="portfolio">
+            <img id="aiImg1" src="the-nigmatic-YefEvN5CDLY-unsplash.jpg" alt="AI-generated image 1" />
+            <img id="aiImg2" src="christopher-gower-m_HRfLhgABo-unsplash.jpg" alt="AI-generated image 2" />
+            <img id="aiImg3" src="ilya-pavlov-OqtafYT5kTw-unsplash.jpg" alt="AI-generated image 3" />
+          </div>
+
+          <footer>
+            <small>Made with ❤️ by Nelson (Elison West)</small>
+          </footer>
+        </div>
+      </aside>
+    </main>
+
+    <!-- contact form (no backend) -->
+    <div id="contactForm" style="margin-top:18px;background:var(--panel);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
+      <h3>Say hello</h3>
+      <p class="muted">This form uses `mailto:` to open your email client — replace with a backend endpoint if you want server delivery.</p>
+      <form onsubmit="event.preventDefault(); openMail()">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input required placeholder="Your name" id="fName" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit" />
+          <input required placeholder="Your email" id="fEmail" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit" />
+        </div>
+        <textarea required id="fMsg" placeholder="Message" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;min-height:110px"></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button class="btn" type="submit">Send</button>
+          <button class="btn secondary" type="button" onclick="downloadSite()">Download HTML</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+  // -----------------------------
+  // Background particle system (canvas)
+  // -----------------------------
+  const bg = document.getElementById('bgCanvas');
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const bgCtx = bg.getContext('2d');
+  let w, h, particles;
+  function resize(){
+    w = innerWidth; h = innerHeight;
+    bg.width = Math.floor(w * dpr);
+    bg.height = Math.floor(h * dpr);
+    bg.style.width = w + 'px';
+    bg.style.height = h + 'px';
+    bgCtx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  function initParticles(){
+    particles = Array.from({length:28}, (_,i)=>({
+      x: Math.random()*w, y: Math.random()*h,
+      r: 8+Math.random()*36, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.2,
+      hue: 200 + Math.random()*120, alpha:0.03+Math.random()*0.08
+    }));
+  }
+  function drawBG(){
+    bgCtx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<-100) p.x = w+100; if(p.x>w+100) p.x=-100;
+      if(p.y<-100) p.y = h+100; if(p.y>h+100) p.y=-100;
+      const g = bgCtx.createRadialGradient(p.x,p.y,p.r*0.1,p.x,p.y,p.r);
+      g.addColorStop(0, `hsla(${p.hue},80%,65%,${p.alpha*1.2})`);
+      g.addColorStop(1, `hsla(${p.hue},60%,40%,0)`);
+      bgCtx.globalCompositeOperation = 'screen';
+      bgCtx.fillStyle = g;
+      bgCtx.beginPath(); bgCtx.arc(p.x,p.y,p.r,0,Math.PI*2); bgCtx.fill();
+    });
+    requestAnimationFrame(drawBG);
+  }
+  resize(); initParticles(); drawBG();
+
+  // -----------------------------
+  // Procedural "AI-style" images via canvas
+  // These are deterministic-ish abstract renders you can export
+  // -----------------------------
+  function generateAbstractImage(seed, width=800, height=600){
+    // simple seeded random
+    function rnd(){
+      seed = (seed * 9301 + 49297) % 233280; return seed/233280;
+    }
+    const c = document.createElement('canvas'); c.width = width; c.height = height; const ctx = c.getContext('2d');
+
+    // base gradient
+    const g = ctx.createLinearGradient(0,0,width,height);
+    g.addColorStop(0, `hsl(${Math.floor(200 + rnd()*120)}, 70%, ${40 + rnd()*20}%)`);
+    g.addColorStop(1, `hsl(${Math.floor(160 + rnd()*120)}, 60%, ${20 + rnd()*25}%)`);
+    ctx.fillStyle = g; ctx.fillRect(0,0,width,height);
+
+    // add soft blobs
+    for(let i=0;i<14;i++){
+      const x = rnd()*width, y = rnd()*height, r = (30 + rnd()*220);
+      const g2 = ctx.createRadialGradient(x,y, r*0.1, x,y,r);
+      const hue = Math.floor(120 + rnd()*200);
+      g2.addColorStop(0, `hsla(${hue}, ${50 + rnd()*30}%, ${40 + rnd()*20}%, ${0.25 + rnd()*0.35})`);
+      g2.addColorStop(1, `hsla(${hue+40}, ${30 + rnd()*30}%, ${20 + rnd()*20}%, 0)`);
+      ctx.globalCompositeOperation = (i%3===0)?'lighter':'soft-light';
+      ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+
+    // add some line noise
+    ctx.globalCompositeOperation = 'overlay';
+    ctx.lineWidth = 1 + Math.floor(rnd()*3);
+    for(let i=0;i<40;i++){
+      ctx.beginPath();
+      ctx.moveTo(rnd()*width, rnd()*height);
+      for(let j=0;j<6;j++) ctx.lineTo(rnd()*width, rnd()*height);
+      ctx.strokeStyle = `hsla(${Math.floor(200 + rnd()*120)},40%,60%,${0.04 + rnd()*0.06})`;
+      ctx.stroke();
+    }
+
+    // subtle grain
+    const img = ctx.getImageData(0,0,width,height);
+    for(let i=0;i<img.data.length;i+=4){
+      const v = (Math.random()-0.5)*8;
+      img.data[i] = Math.max(0, Math.min(255, img.data[i] + v));
+      img.data[i+1] = Math.max(0, Math.min(255, img.data[i+1] + v));
+      img.data[i+2] = Math.max(0, Math.min(255, img.data[i+2] + v));
+    }
+    ctx.putImageData(img,0,0);
+
+    // vignette
+    const vg = ctx.createRadialGradient(width/2,height/2,Math.min(width,height)/4,width/2,height/2,Math.max(width,height));
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.45)');
+    ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = vg; ctx.fillRect(0,0,width,height);
+
+    return c.toDataURL('image/jpeg',0.9);
+  }
+
+  // place generated images into the DOM
+  document.getElementById('aiImg1').src = generateAbstractImage(12345,800,600);
+  document.getElementById('aiImg2').src = generateAbstractImage(54321,800,600);
+  document.getElementById('aiImg3').src = generateAbstractImage(98765,800,600);
+
+  // export images
+  document.getElementById('exportAll').addEventListener('click', ()=>{
+    [12345,54321,98765].forEach((s,i)=>{
+      const a = document.createElement('a'); a.href = generateAbstractImage(s,1600,1200);
+      a.download = `nelson-ai-${i+1}.jpg`; document.body.appendChild(a); a.click(); a.remove();
+    });
+  });
+
+  // open mail client
+  function openMail(){
+    const name = encodeURIComponent(document.getElementById('fName').value);
+    const email = encodeURIComponent(document.getElementById('fEmail').value);
+    const msg = encodeURIComponent(document.getElementById('fMsg').value + '\n\nPhone: +256700209661');
+    const subject = encodeURIComponent('Message from ' + name);
+    window.location.href = `mailto:nelson@example.com?subject=${subject}&body=${msg}`;
+  }
+
+  // download HTML file of the page
+  function downloadSite(){
+    const html = `<!doctype html>\n${document.documentElement.outerHTML}`;
+    const blob = new Blob([html], {type:'text/html'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'nelson-personal-site.html'; document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  // small accessibility: allow keyboard to focus viewPortfolio
+  document.getElementById('viewPortfolio').addEventListener('click', ()=>{
+    document.getElementById('portfolio').scrollIntoView({behavior:'smooth'});
+  });
+
+  // export images shortcut (Ctrl+E)
+  window.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='e'){ e.preventDefault(); document.getElementById('exportAll').click(); } });
+  </script>
+</body>
+</html>
